@@ -1,0 +1,29 @@
+if(this.frontier.isEmpty())
+				break;
+			else
+			{
+
+				Node<Maze> current = ((PriorityQueue<Node<Maze>>) this.frontier).poll();
+
+				this.maze = current.getContent();
+				Square cState = this.maze.getCurrState();
+
+				if (cState.getCol() == this.maze.getEnd().getCol() && cState.getLine() == this.maze.getEnd().getLine()) {
+					this.frontier.add(current);
+					endfound = true;
+				} else {
+					LinkedList<Node<Maze>> nexts = this.getNextSquares();
+					Iterator<Node<Maze>> nextsIterator = nexts.iterator();
+
+					if (!this.closedSquares.contains(cState)) {
+						while (nextsIterator.hasNext()) {
+							Node<Maze> nextNode = nextsIterator.next();
+							nextNode.setFather(current);
+							this.frontier.add(nextNode);
+							nodesCounter++;
+						}
+						this.closedSquares.add(cState);
+
+					}
+				}
+			}
